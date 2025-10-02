@@ -13,4 +13,4 @@ dollars = float(input('Enter an amount in USD: '))
 
 bitcoins = round(dollars / usd_rate, 6)
 
-print(f'{dollars} dollars in Bitcoin is: {bitcoins}')
+print(f'{dollars:.2f} dollars in Bitcoin is: {bitcoins}')
