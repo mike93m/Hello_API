@@ -1,29 +1,38 @@
 import os
 import requests
+import logging
 from pprint import pprint
 from datetime import datetime
 
+# Set up logging configuration
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
 # Minneapolis Latitude and Longitude
+# Used for the API call to get the weather forecast
 lat = 44.97
 lon = -93.26
-units = 'imperial'  # change to 'imperial' for quantities in Fahrenheit, miles per hour etc. 
+units = 'imperial'  # Tempurature units, change to 'metric' for quantities in Fahrenheit
 
 api_key = os.environ['WEATHER_KEY']  # Set this environment variable on your computer 
 
 url = f'https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&units={units}&appid={api_key}'
 
+# Make the API request and store the JSON response
 response = requests.get(url)
 weather_forecast = response.json()
-# pprint(weather_forecast)
+
+# Ensure a valid response was received
+logging.debug(f'Weather forecast data: {pprint(weather_forecast)}')
 
 # Extract and print some information from the JSON response
-# Getting different pieces of information from the JSON response
 weather_description = weather_forecast['list'][0]['weather'][0]['description']
 wind_key = weather_forecast['list'][0]['wind']
 wind_gusts = weather_forecast['list'][0]['wind']['gust']
-# print(f'Current weather: {weather_description}')
-# print(f'Current wind: {wind_key}')
-# print(f'Current wind gusts: {wind_gusts}')
+
+# Testing to make sure I am getting the correct expected values
+logging.debug(f'Current weather: {weather_description}')
+logging.debug(f'Current wind: {wind_key}')
+logging.debug(f'Current wind gusts: {wind_gusts}')
 
 print("Here is the 5 day weather forecast for Minneapolis, MN:")
 print("The weather forecast is provided in 3 hour intervals.\n")
