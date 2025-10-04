@@ -24,12 +24,12 @@ def main():
     else:
         temp_unit = '°C'    
 
+    # Construct the API URL with the latitude, longitude, units, and API key.
     url = f'https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&units={units}&appid={api_key}'
-
-    # Make the API request and store the JSON response
 
     try: # Try block to catch potential request exceptions
 
+        # Make the API request and store the JSON response.
         response = requests.get(url)
         weather_forecast = response.json()
 
@@ -37,12 +37,12 @@ def main():
         print(f'Error fetching weather data: {e}')
         return
 
-    # Extract and print some information from the JSON response.
+    # These variables are for testing purposes to ensure I am getting the expected values.
     weather_description = weather_forecast['list'][0]['weather'][0]['description']
     wind_key = weather_forecast['list'][0]['wind']
     wind_gusts = weather_forecast['list'][0]['wind']['gust']
 
-    # Testing to make sure I am getting the correct expected values.
+    # Log tessting
     logging.debug(f'Current weather: {weather_description}\n')
     logging.debug(f'Current wind: {wind_key}\n')
     logging.debug(f'Current wind gusts: {wind_gusts}\n')
@@ -77,7 +77,7 @@ def main():
             print(f'{formatted_time:<10} {day_of_week:<10} {formatted_date:<15} {temp:<12.1f} {description:<25} {wind_speed:<12.1f} {wind_gusts:<12.1f}')
             print()
 
-    except (KeyError, ValueError) as e:
+    except (KeyError, ValueError, TypeError) as e:
         print(f'Error processing weather data: {e}')
         return
 
