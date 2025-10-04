@@ -32,8 +32,9 @@ def main():
         # Make the API request and store the JSON response.
         response = requests.get(url)
         weather_forecast = response.json()
-
+        
     except requests.exceptions.RequestException as e:
+        logging.error(e)
         print(f'Error fetching weather data: {e}')
         return
 
@@ -78,6 +79,7 @@ def main():
             print()
 
     except (KeyError, ValueError, TypeError) as e:
+        logging.error(e)
         print(f'Error processing weather data: {e}')
         return
 
